@@ -71,8 +71,8 @@ public class Level2Activity extends AppCompatActivity implements View.OnClickLis
 
         showAllCardsFaceDown();
 
-        Toast toast = Toast.makeText(getApplicationContext(), "Find every " + numOfMatchedCards + " matched cards", Toast.LENGTH_LONG);
-        toast.show();
+        /*Toast toast = Toast.makeText(getApplicationContext(), "Find every " + numOfMatchedCards + " matched cards", Toast.LENGTH_LONG);
+        toast.show();*/
     }
 
     private void initGame(){
