@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorAccent"
+    tools:context=".Level1Activity">
+
+    <TextView
+        android:id="@+id/textTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="64dp"
+        android:text="Time: 00:00"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textMoves"
+        android:layout_width="120dp"
+        android:layout_height="28dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="64dp"
+        android:text="Moves:  "
+        android:textColor="@android:color/white"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.87"
+        app:layout_constraintStart_toStartOf="@+id/textTime"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="42dp"
+        android:layout_marginTop="16dp"
+        android:text="Level 1"
+        android:textColor="@android:color/white"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <GridLayout
+        android:id="@+id/GridLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="86dp"
+        android:background="@color/colorAccent"
+        android:columnCount="4"
+        android:rowCount="3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <ImageView
+            android:id="@+id/card11"
+            android:layout_width="78dp"
+            android:layout_height="110dp"
+            android:layout_marginBottom="4dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/border"
+            android:tag="1"
+            app:srcCompat="@drawable/bw" />
+
+        <ImageView
+            android:id="@+id/card12"
+            android:layout_width="78dp"
+            android:layout_height="110dp"
+            android:layout_marginBottom="4dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/border"
+            android:tag="2"
+            app:srcCompat="@drawable/bw" />
+
+        <ImageView
+            android:id="@+id/card13"
+            android:layout_width="78dp"
+            android:layout_height="110dp"
+            android:layout_marginBottom="4dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/border"
+            android:tag="3"
+            app:srcCompat="@drawable/bw" />
+
+        <ImageView
+            android:id="@+id/card14"
+            android:layout_width="78dp"
+            android:layout_height="110dp"
+            android:layout_marginBottom="4dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/border"
+            android:tag="4"
+            app:srcCompat="@drawable/bw" />
+
+        <ImageView
+            android:id="@+id/card21"
+            android:layout_width="78dp"
+            android:layout_height="110dp"
+            android:layout_marginBottom="4dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/border"
+            android:tag="5"
+            app:srcCompat="@drawable/bw" />
+
+        <ImageView
+            android:id="@+id/card22"
+            android:layout_width="78dp"
+            android:layout_height="110dp"
+            android:layout_marginBottom="4dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/border"
+            android:tag="6"
+            app:srcCompat="@drawable/bw" />
+
+        <ImageView
+            android:id="@+id/card23"
+            android:layout_width="78dp"
+            android:layout_height="110dp"
+            android:layout_marginBottom="4dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/border"
+            android:tag="7"
+            app:srcCompat="@drawable/bw" />
+
+        <ImageView
+            android:id="@+id/card24"
+            android:layout_width="78dp"
+            android:layout_height="110dp"
+            android:layout_marginBottom="4dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/border"
+            android:tag="8"
+            app:srcCompat="@drawable/bw" />
+
+
+        <ImageView
+            android:id="@+id/card31"
+            android:layout_width="78dp"
+            android:layout_height="110dp"
+            android:layout_marginBottom="4dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/border"
+            android:tag="9"
+            app:srcCompat="@drawable/bw" />
+
+        <ImageView
+            android:id="@+id/card32"
+            android:layout_width="78dp"
+            android:layout_height="110dp"
+            android:layout_marginBottom="4dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/border"
+            android:tag="10"
+            app:srcCompat="@drawable/bw" />
+
+        <ImageView
+            android:id="@+id/card33"
+            android:layout_width="78dp"
+            android:layout_height="110dp"
+            android:layout_marginBottom="4dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/border"
+            android:tag="11"
+            app:srcCompat="@drawable/bw" />
+
+        <ImageView
+            android:id="@+id/card34"
+            android:layout_width="78dp"
+            android:layout_height="110dp"
+            android:layout_marginBottom="4dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/border"
+            android:tag="12"
+            app:srcCompat="@drawable/bw" />
+    </GridLayout>
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="155dp"
+        android:layout_height="64dp"
+        android:layout_marginBottom="70dp"
+        android:onClick="onStartClick"
+        android:tag="0"
+        android:text="Start again"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</android.support.constraint.ConstraintLayout>
