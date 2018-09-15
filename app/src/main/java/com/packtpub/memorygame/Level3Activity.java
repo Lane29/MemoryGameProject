@@ -92,6 +92,8 @@ public class Level3Activity extends AppCompatActivity implements View.OnClickLis
         openedCardsPositions = cardTools.initOpenedCardsPositionsArray(numOfMatchedCards);
 
         initTextMoves();
+        initTextInstructions(false);
+
         setOnClickListenerOnImageViews();
         isPlayStarted = false;
 
@@ -104,6 +106,13 @@ public class Level3Activity extends AppCompatActivity implements View.OnClickLis
         TextView textMoves = findViewById(R.id.textMoves);
         String str = "Moves: 0";
         textMoves.setText(str);
+    }
+
+    private void initTextInstructions(boolean deleteText) {
+        TextView textInstructions = findViewById(R.id.textViewInstructions);
+        String str = "Find Three Match";
+        if (deleteText) str = "";
+        textInstructions.setText(str);
     }
 
     private void setOnClickListenerOnImageViews() {
@@ -183,6 +192,7 @@ public class Level3Activity extends AppCompatActivity implements View.OnClickLis
                                 Button buttonStart = findViewById(R.id.button);
                                 buttonStart.setText("Finish game");
                                 buttonStart.setTag(1); //In level 2 tag=1 means go to the menu instead of re-start the game when tag=0
+                                initTextInstructions(true);
                                 saveResult();
                             }
                         }
@@ -207,8 +217,6 @@ public class Level3Activity extends AppCompatActivity implements View.OnClickLis
         SharedPreferences.Editor editor = prefs.edit();
         //Load existing Best Time or if it is not available default (0)
         String bestTime = prefs.getString(level3BestTime, defaultTime);
-
-        if (bestTime.equals("-")) Log.i("info", "Level3......saveResult.........bestTime = " + bestTime);
 
         String curTime = textTime.getText().toString().substring(6);
         int bestTimeInSec = cardTools.strTimeToSec(bestTime);

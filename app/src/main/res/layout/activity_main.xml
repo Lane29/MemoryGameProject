@@ -31,17 +31,17 @@
 
         <ImageView
             android:id="@+id/imageView3"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="90dp"
             android:layout_marginTop="20dp"
             app:srcCompat="@drawable/icon" />
 
         <Button
             android:id="@+id/buttonPlay"
-            android:layout_width="150dp"
+            android:layout_width="match_parent"
             android:layout_height="61dp"
-            android:layout_marginLeft="80dp"
+            android:layout_marginLeft="40sp"
+            android:layout_marginRight="40sp"
             android:layout_marginTop="25dp"
             android:onClick="onPlayClick"
             android:tag="0"
@@ -51,9 +51,10 @@
 
         <Button
             android:id="@+id/buttonResults"
-            android:layout_width="150dp"
+            android:layout_width="match_parent"
             android:layout_height="61dp"
-            android:layout_marginLeft="80dp"
+            android:layout_marginLeft="40sp"
+            android:layout_marginRight="40sp"
             android:layout_marginTop="10sp"
             android:onClick="onResultsClick"
             android:tag="0"
@@ -63,9 +64,10 @@
 
         <Button
             android:id="@+id/buttonRules"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="61dp"
-            android:layout_marginLeft="80dp"
+            android:layout_marginLeft="40sp"
+            android:layout_marginRight="40sp"
             android:layout_marginTop="10sp"
             android:onClick="onRulesClick"
             android:tag="0"

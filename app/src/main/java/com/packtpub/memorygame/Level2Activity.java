@@ -92,6 +92,8 @@ public class Level2Activity extends AppCompatActivity implements View.OnClickLis
         openedCardsPositions = cardTools.initOpenedCardsPositionsArray(numOfMatchedCards);
 
         initTextMoves();
+        initTextInstructions(false);
+
         setOnClickListenerOnImageViews();
         isPlayStarted = false;
 
@@ -104,6 +106,13 @@ public class Level2Activity extends AppCompatActivity implements View.OnClickLis
         TextView textMoves = findViewById(R.id.textMoves);
         String str = "Moves: 0";
         textMoves.setText(str);
+    }
+
+    private void initTextInstructions(boolean deleteText) {
+        TextView textInstructions = findViewById(R.id.textViewInstructions);
+        String str = "Find Three Match";
+        if (deleteText) str = "";
+        textInstructions.setText(str);
     }
 
     private void setOnClickListenerOnImageViews() {
@@ -183,6 +192,7 @@ public class Level2Activity extends AppCompatActivity implements View.OnClickLis
                                 Button buttonStart = findViewById(R.id.button);
                                 buttonStart.setText("Next level");
                                 buttonStart.setTag(1); //In level 2 tag=1 means go to the level 3  instead of re-start the game when tag=0
+                                initTextInstructions(true);
                                 saveResult();
                             }
                         }

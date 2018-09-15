@@ -91,6 +91,8 @@ public class Level1Activity extends AppCompatActivity implements View.OnClickLis
         openedCardsPositions = cardTools.initOpenedCardsPositionsArray(numOfMatchedCards);
 
         initTextMoves();
+        initTextInstructions(false);
+
         setOnClickListenerOnImageViews();
         isPlayStarted = false;
 
@@ -103,6 +105,13 @@ public class Level1Activity extends AppCompatActivity implements View.OnClickLis
         TextView textMoves = findViewById(R.id.textMoves);
         String str = "Moves: 0";
         textMoves.setText(str);
+    }
+
+    private void initTextInstructions(boolean deleteText) {
+        TextView textInstructions = findViewById(R.id.textViewInstructions);
+        String str = "Find Two Match";
+        if (deleteText) str = "";
+        textInstructions.setText(str);
     }
 
     private void setOnClickListenerOnImageViews() {
@@ -182,6 +191,7 @@ public class Level1Activity extends AppCompatActivity implements View.OnClickLis
                               Button buttonStart = findViewById(R.id.button);
                               buttonStart.setText("Next level");
                               buttonStart.setTag(1); //1 means go to next level instead of re-start the game when tag=0
+                              initTextInstructions(true);
                               saveResult();
                           }
                       }

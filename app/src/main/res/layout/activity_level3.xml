@@ -6,7 +6,17 @@
     android:layout_height="match_parent"
     tools:context=".Level3Activity"
     tools:layout_editor_absoluteY="81dp"
-    android:background="@color/colorAccent">
+    android:background="@android:color/holo_orange_light">
+
+    <TextView
+        android:id="@+id/textViewInstructions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Find Three Match"
+        android:textStyle="italic"
+        app:layout_constraintStart_toStartOf="@+id/textView"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/textTime"
@@ -24,7 +34,7 @@
     <TextView
         android:id="@+id/textMoves"
         android:layout_width="120dp"
-        android:layout_height="28dp"
+        android:layout_height="27dp"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="64dp"
@@ -33,7 +43,7 @@
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.87"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/textTime"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -55,7 +65,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="86dp"
-        android:background="@color/colorAccent"
         android:columnCount="6"
         android:rowCount="3"
         app:layout_constraintEnd_toEndOf="parent"
