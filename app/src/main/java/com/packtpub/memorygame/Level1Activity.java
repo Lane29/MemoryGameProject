@@ -8,6 +8,7 @@ import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -69,9 +70,6 @@ public class Level1Activity extends AppCompatActivity implements View.OnClickLis
         cardTools.shuffleCards(pack);
 
         showAllCardsFaceDown();
-
-   /*     Toast toast = Toast.makeText(getApplicationContext(), "Find every " + numOfMatchedCards + " matched cards", Toast.LENGTH_LONG);
-        toast.show();*/
     }
 
     private void initGame(){
@@ -212,17 +210,17 @@ public class Level1Activity extends AppCompatActivity implements View.OnClickLis
         Log.i("info", "saveResult.........bestTime = " + bestTime);
         int bestTimeInSec = cardTools.strTimeToSec(bestTime);
         int curTimeInSec = cardTools.strTimeToSec(curTime);
+        Toast toast;
         if (curTimeInSec < bestTimeInSec) {
             editor = prefs.edit();
             editor.putString(level1BestTime, curTime);
             editor.commit();
-            Toast toast = Toast.makeText(getApplicationContext(), "CONGRATULATIONS! Best Time!", Toast.LENGTH_LONG);
-            toast.show();
+            toast = Toast.makeText(getApplicationContext(), "CONGRATULATIONS! Best Time!", Toast.LENGTH_LONG);
         }
-        else {
-            Toast toast = Toast.makeText(getApplicationContext(), "CONGRATULATIONS!", Toast.LENGTH_LONG);
-            toast.show();
-        }
+        else toast = Toast.makeText(getApplicationContext(), "CONGRATULATIONS!", Toast.LENGTH_LONG);
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.show();
+
     }
 
     //Re-start the game
