@@ -32,7 +32,6 @@ public class Level2Activity extends AppCompatActivity implements View.OnClickLis
     private int openedCardsPositions[];
 
     private int cntMoves = 0;
-    // private int timeInMilliseconds = 0;
 
     private MediaPlayer flipMediaPlayer;
     private MediaPlayer matchMediaPlayer;
@@ -74,7 +73,6 @@ public class Level2Activity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void initGame(){
-        // Log.i("info", "initGame...............");
         lengthOfPack = numRows * numCols;           //For level #2 = 15 cards are laid
         numberOfCardsInSet = lengthOfPack / numOfMatchedCards;    //For level #2 = 5 cards in a set
 
@@ -116,7 +114,6 @@ public class Level2Activity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void setOnClickListenerOnImageViews() {
-        //Log.i("info", "setOnClickListenerOnImageViews...............");
         //Setting onClickListener on each imageView
         ImageView imageView;
         for (int i = 1; i <= numRows; i++)
@@ -128,7 +125,6 @@ public class Level2Activity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void removeOnClickListenerOnImageViews() {
-        //Log.i("info", "setOnClickListenerOnImageViews...............");
         //remove onClickListener from each imageView
         ImageView imageView;
         for (int i = 1; i <= numRows; i++)
@@ -140,8 +136,6 @@ public class Level2Activity extends AppCompatActivity implements View.OnClickLis
     }
 
     public void onClick(View view) {
-        Log.i("info", "onClick...............");
-
         //Start timer when user starts playing
         if (!isPlayStarted){
             setTimer();
@@ -152,7 +146,6 @@ public class Level2Activity extends AppCompatActivity implements View.OnClickLis
 
         //Position of the clicked card in a whole pack
         int positionInPack = Integer.parseInt(clickedCard.getTag().toString());
-        Log.i("info", "onClick...............Position in Pack = " + positionInPack);
 
         //Check whether user tried to open the card while needed numer of cards are already opened
         //Or user clicked on the already opened card
@@ -162,7 +155,6 @@ public class Level2Activity extends AppCompatActivity implements View.OnClickLis
             isCardOnItsEdge = false;
 
             flipCard(clickedCard);
-            Log.i("info", "image" + pack[positionInPack - 1]);
 
             cntMoves++;
             showMoves();
@@ -171,7 +163,6 @@ public class Level2Activity extends AppCompatActivity implements View.OnClickLis
 
             if (cardTools.neededNumberOfCardsIsOpened(openedCardsValues, numOfMatchedCards)) {
                 if (cardTools.areOpenedCardsMatch(openedCardsValues, numOfMatchedCards)) {
-                    Log.i("info", "onClick...Cards are matched!!! ");
 
                     Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
@@ -186,7 +177,6 @@ public class Level2Activity extends AppCompatActivity implements View.OnClickLis
 
                              if (cardTools.areAllCardsPlayed(playedCards, lengthOfPack)) {
                                 winMediaPlayer.start();
-                                Log.i("info", "WIN-WIN-WIN !!!");
                                 isPlayStarted = false;
                                 removeOnClickListenerOnImageViews();
                                 Button buttonStart = findViewById(R.id.button);
@@ -214,13 +204,13 @@ public class Level2Activity extends AppCompatActivity implements View.OnClickLis
     private void saveResult() {
         String level2BestTime = "level2BestTime";
         String defaultTime = "59:59";
+
         SharedPreferences prefs = getSharedPreferences(level2BestTime, MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
+
         //Load existing Best Time or if it is not available default (0)
         String bestTime = prefs.getString(level2BestTime, defaultTime);
         String curTime = textTime.getText().toString().substring(6);
-        Log.i("info", "Level2......saveResult.........bestTime = " + bestTime);
-        Log.i("info", "Level2......saveResult.........curTime = " + curTime);
 
         int bestTimeInSec = cardTools.strTimeToSec(bestTime);
         int curTimeInSec = cardTools.strTimeToSec(curTime);
@@ -240,7 +230,6 @@ public class Level2Activity extends AppCompatActivity implements View.OnClickLis
 
     //Re-start the game
     public void onStartClick(View view) {
-        Log.i("info", "onStartClick..............."+view.getTag().toString());
         if (view.getTag().toString().equals("0")) {
             cardTools.shuffleCards(pack);
             moveBackAllCards();
@@ -262,7 +251,6 @@ public class Level2Activity extends AppCompatActivity implements View.OnClickLis
     private void removeMatchedCards() {
         ImageView imageView;
         for (int i = 0; i < numOfMatchedCards; i++) {
-            Log.i("info", "........removeMatchedCards...openedCardsPositions["+i+"] = " + openedCardsPositions[i]);
             int resID = getResources().getIdentifier(cardTools.getCardIDByPosition(openedCardsPositions[i], numCols), "id", getPackageName());
             imageView = findViewById(resID);
             imageView.animate().translationXBy(-2000f).setDuration(1000);
@@ -270,17 +258,13 @@ public class Level2Activity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void moveBackAllCards() {
-        Log.i("info", "........moveBackAllCards");
         ImageView imageView;
         int positionToMoveBack, i, j;
-/*        for (int i = 1; i <= numRows; i++)
-            for (int j =1; j <= numCols; j++) {*/
         for (int n = 0; n < playedCards.length; n++) {
             if (playedCards[n]) {
                 positionToMoveBack = n + 1;
                 i = cardTools.getCardRowByPosition(positionToMoveBack, numCols);
                 j = cardTools.getCardColByPosition(positionToMoveBack, numCols);
-                Log.i("info", "moveBackAllCards......................card" + i + j);
                 int resID = getResources().getIdentifier("card" + i + j, "id", getPackageName());
                 imageView = findViewById(resID);
                 imageView.animate().translationXBy(2000f).setDuration(0);
@@ -296,13 +280,11 @@ public class Level2Activity extends AppCompatActivity implements View.OnClickLis
 
     //Turn all cards face down
     private void showAllCardsFaceDown() {
-        ///Log.i("info", "turnAllCardsFaceDown...............");
         for (int i = 1; i <= numRows; i++)
             for (int j = 1; j <= numCols; j++)  showCardFaceDown(i, j);
     }
 
     private void showCardFaceDown(int i, int j) {
-        ///Log.i("info", "showCardFaceDown...............");
         int resID = getResources().getIdentifier("card" + i + j, "id", getPackageName());
         ImageView imageView = findViewById(resID);
         int id = getResources().getIdentifier("bw", "drawable", getPackageName());
@@ -311,9 +293,9 @@ public class Level2Activity extends AppCompatActivity implements View.OnClickLis
 
     //Turn only opened cards face down
     private void flipOpenedCards() {
-        Log.i("info", "flipOpenedCards...............");
         isCardFaceDown = false;
         isCardOnItsEdge = false;
+
         CountDownTimer timer = new CountDownTimer(MainActivity.flipTimeMsc*4, MainActivity.flipTimeMsc*2) {
             @Override
             public void onTick(long l) {
@@ -326,7 +308,6 @@ public class Level2Activity extends AppCompatActivity implements View.OnClickLis
                     int i = cardTools.getCardRowByPosition(openedCardsPositions[n], numCols);
                     int j = cardTools.getCardColByPosition(openedCardsPositions[n], numCols);
                     int resID = getResources().getIdentifier("card" + i + j, "id", getPackageName());
-                    Log.i("info", "flipOpenedCards...............n = " + n + "...card" + i + j);
 
                     cardToFlip = findViewById(resID);
                     //if the card on its edge - it's the time to change image and then turn it
@@ -349,12 +330,11 @@ public class Level2Activity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void flipCard(ImageView card){
-        Log.i("info", "flipCard...............");
         cardToFlip = card;
+
         CountDownTimer timer = new CountDownTimer(MainActivity.flipTimeMsc*4, MainActivity.flipTimeMsc*2) {
             @Override
             public void onTick(long l) {
-                Log.i("info", "flipCard...............onTick");
                 float scaleXValue = 1f; //Default value - for turning to flat position
 
                 //if the card already flipped than it will be turned on to its edge
@@ -382,7 +362,6 @@ public class Level2Activity extends AppCompatActivity implements View.OnClickLis
             public void onFinish() {
             }
         };
-        Log.i("info", "flipCard...............before start");
         timer.start();
     }
 
