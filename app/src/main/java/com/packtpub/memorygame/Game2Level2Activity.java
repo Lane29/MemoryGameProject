@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -15,7 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class Level3Activity extends AppCompatActivity implements View.OnClickListener{
+public class Game2Level2Activity extends AppCompatActivity implements View.OnClickListener{
 
     private int numOfMatchedCards = 0;
 
@@ -51,14 +50,15 @@ public class Level3Activity extends AppCompatActivity implements View.OnClickLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_level3);
+        setContentView(R.layout.activity_game2_level2);
 
         numOfMatchedCards = 3;
         numRows = 3;
-        numCols = 6;
+        numCols = 5;
 
         textTime = (TextView) findViewById(R.id.textTime);
         textTime.setText("Time: 00:00");
+
 
         flipMediaPlayer = MediaPlayer.create(this, R.raw.memory_flip);
         matchMediaPlayer = MediaPlayer.create(this, R.raw.memory_match);
@@ -72,8 +72,8 @@ public class Level3Activity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void initGame(){
-        lengthOfPack = numRows * numCols;           //For level #3 = 18 cards are laid
-        numberOfCardsInSet = lengthOfPack / numOfMatchedCards;    //For level #3 = 6 cards in a set
+        lengthOfPack = numRows * numCols;           //For level #2 = 15 cards are laid
+        numberOfCardsInSet = lengthOfPack / numOfMatchedCards;    //For level #2 = 5 cards in a set
 
         //Array for all cards
         pack = cardTools.initPackArray(lengthOfPack, numberOfCardsInSet);
@@ -174,18 +174,19 @@ public class Level3Activity extends AppCompatActivity implements View.OnClickLis
                             openedCardsValues = cardTools.initOpenedCardsValuesArray(numOfMatchedCards);
                             openedCardsPositions = cardTools.initOpenedCardsPositionsArray(numOfMatchedCards);
 
-                            if (cardTools.areAllCardsPlayed(playedCards, lengthOfPack)) {
+                             if (cardTools.areAllCardsPlayed(playedCards, lengthOfPack)) {
                                 winMediaPlayer.start();
                                 isPlayStarted = false;
                                 removeOnClickListenerOnImageViews();
                                 Button buttonStart = findViewById(R.id.button);
-                                buttonStart.setText("Finish game");
-                                buttonStart.setTag(1); //In level 2 tag=1 means go to the menu instead of re-start the game when tag=0
+                                buttonStart.setText("Next level");
+                                buttonStart.setTag(1); //In level 2 tag=1 means go to the level 3  instead of re-start the game when tag=0
                                 initTextInstructions(true);
                                 saveResult();
                             }
                         }
                     }, MainActivity.flipTimeMsc*4);
+
                 } //Opened cards don't match, wait 2 sec and close cards automatically
                 else {
                     Handler handler = new Handler();
@@ -200,14 +201,14 @@ public class Level3Activity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void saveResult() {
-        String level3BestTime = "level3BestTime";
+        String level2BestTime = "level2BestTime";
         String defaultTime = "59:59";
 
-        SharedPreferences prefs = getSharedPreferences(level3BestTime, MODE_PRIVATE);
+        SharedPreferences prefs = getSharedPreferences(level2BestTime, MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
 
         //Load existing Best Time or if it is not available default (0)
-        String bestTime = prefs.getString(level3BestTime, defaultTime);
+        String bestTime = prefs.getString(level2BestTime, defaultTime);
         String curTime = textTime.getText().toString().substring(6);
 
         int bestTimeInSec = cardTools.strTimeToSec(bestTime);
@@ -216,13 +217,14 @@ public class Level3Activity extends AppCompatActivity implements View.OnClickLis
         Toast toast;
         if (curTimeInSec < bestTimeInSec) {
             editor = prefs.edit();
-            editor.putString(level3BestTime, curTime);
+            editor.putString(level2BestTime, curTime);
             editor.commit();
             toast = Toast.makeText(getApplicationContext(), "CONGRATULATIONS! Best Time!", Toast.LENGTH_LONG);
         }
         else toast = Toast.makeText(getApplicationContext(), "CONGRATULATIONS!", Toast.LENGTH_LONG);
         toast.setGravity(Gravity.CENTER, 0, 0);
         toast.show();
+
     }
 
     //Re-start the game
@@ -240,7 +242,7 @@ public class Level3Activity extends AppCompatActivity implements View.OnClickLis
         }
         else {
             Intent i;
-            i = new Intent(this, MainActivity.class);
+            i = new Intent(this, Game2Level3Activity.class);
             startActivity(i);
         }
     }

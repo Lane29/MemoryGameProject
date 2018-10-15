@@ -15,7 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class Level1Activity extends AppCompatActivity implements View.OnClickListener{
+public class Game2Level1Activity extends AppCompatActivity implements View.OnClickListener{
 
     private int numOfMatchedCards = 0;
 
@@ -51,7 +51,7 @@ public class Level1Activity extends AppCompatActivity implements View.OnClickLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_level1);
+        setContentView(R.layout.activity_game2_level1);
 
         numOfMatchedCards = 2;
         numRows = 3;
@@ -63,12 +63,23 @@ public class Level1Activity extends AppCompatActivity implements View.OnClickLis
         flipMediaPlayer = MediaPlayer.create(this, R.raw.memory_flip);
         matchMediaPlayer = MediaPlayer.create(this, R.raw.memory_match);
         winMediaPlayer = MediaPlayer.create(this, R.raw.memory_fanfare);
-
+Log.i("info", "Game2Level1....onCreate...before initGame");
         initGame();
+        Log.i("info", "Game2Level1....onCreate...before shuffleCards");
 
         cardTools.shuffleCards(pack);
+        Log.i("info", "Game2Level1....onCreate...before showAllCardsFaceUp");
 
-        showAllCardsFaceDown();
+        showAllCardsFaceUp();
+        Log.i("info", "Game2Level1....onCreate...before Handler");
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                flipALLCards();
+            }
+        }, 2000);
+        Log.i("info", "Game2Level1....onCreate...end");
     }
 
     private void initGame(){
@@ -225,7 +236,7 @@ public class Level1Activity extends AppCompatActivity implements View.OnClickLis
         toast.show();
     }
 
-    //Re-start the game
+  /*  //Re-start the game
     public void onStartClick(View view) {
         if (view.getTag().toString().equals("0")) {
             cardTools.shuffleCards(pack);
@@ -240,10 +251,10 @@ public class Level1Activity extends AppCompatActivity implements View.OnClickLis
         }
         else {
             Intent i;
-            i = new Intent(this, Level2Activity.class);
+            i = new Intent(this, Game2Level2Activity.class);
             startActivity(i);
         }
-    }
+    }*/
 
     private void removeMatchedCards() {
         ImageView imageView;
@@ -379,4 +390,93 @@ public class Level1Activity extends AppCompatActivity implements View.OnClickLis
         }, 1000); // 1 second
     }
 
+    //Turn all cards face up
+    private void showAllCardsFaceUp() {
+        for (int i = 1; i <= numRows; i++)
+            for (int j = 1; j <= numCols; j++)  showCardFaceUp(i, j);
+    }
+
+
+    //Re-start the game
+    public void onStartClick(View view) {
+        if (view.getTag().toString().equals("0")) {
+            cardTools.shuffleCards(pack);
+            moveBackAllCards();
+
+            //===================================================== trial
+
+            showAllCardsFaceUp();
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                public void run() {
+                    flipALLCards();
+                }
+            }, 3000);
+//===================================================== trial
+
+            //showAllCardsFaceDown();
+//===================================================== trial
+
+
+
+            playedCards = cardTools.initPlayedCardsArray(lengthOfPack);
+            openedCardsValues = cardTools.initOpenedCardsValuesArray(numOfMatchedCards);
+            initTextMoves();
+            setOnClickListenerOnImageViews();
+            textTime.setText("Time: 00:00");
+            isPlayStarted = false;
+        }
+        else {
+            Intent i;
+            i = new Intent(this, Game1Level2Activity.class);
+            startActivity(i);
+        }
+    }
+
+    private void showCardFaceUp(int i, int j) {
+        int resID = getResources().getIdentifier("card" + i + j, "id", getPackageName());
+        ImageView imageView = findViewById(resID);
+        int positionInPack = Integer.parseInt(imageView.getTag().toString());
+        int id = getResources().getIdentifier("image" + pack[positionInPack - 1], "drawable", getPackageName());
+        imageView.setImageResource(id);
+    }
+
+
+    //Turn only opened cards face down
+    private void flipALLCards() {
+        isCardFaceDown = false;
+        isCardOnItsEdge = false;
+
+        CountDownTimer timer = new CountDownTimer(MainActivity.flipTimeMsc*4, MainActivity.flipTimeMsc*2) {
+            @Override
+            public void onTick(long l) {
+                float scaleXValue = 1f; //Default value - for turning fully
+
+                //if the card flipped than we need to put it on the edge
+                if (!isCardOnItsEdge) scaleXValue = 0.01f;
+
+                for (int n = 0; n < pack.length; n++) {
+
+                    int i = cardTools.getCardRowByPosition(n+1, numCols);
+                    int j = cardTools.getCardColByPosition(n+1, numCols);
+                    int resID = getResources().getIdentifier("card" + i + j, "id", getPackageName());
+                    Log.i("info", "flipALLCards...card" + i + j);
+                    cardToFlip = findViewById(resID);
+                    //if the card on its edge - it's the time to change image and then turn it
+                    if (isCardOnItsEdge) cardToFlip.setImageResource(R.drawable.bw);
+
+                    //Make sound
+                    flipMediaPlayer.start();
+                    cardToFlip.animate().scaleX(scaleXValue).setDuration(MainActivity.flipTimeMsc);
+                }
+                if (!isCardOnItsEdge) isCardOnItsEdge = true;
+            }
+
+            @Override
+            public void onFinish() {
+                //
+            }
+        };
+        timer.start();
+    }
 }

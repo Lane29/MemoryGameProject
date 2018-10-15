@@ -1,6 +1,7 @@
 package com.packtpub.memorygame;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -9,16 +10,30 @@ public class MainActivity extends AppCompatActivity {
 
     public static int flipTimeMsc = 150;
 
+    public static boolean isTimeTrialGame;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
     }
 
-    //Start game - Level 1
-    public void onPlayClick(View view) {
+    //Start game 2 Level 1
+    public void onButtonTimeTrialClick(View view) {
+        isTimeTrialGame = true;
         Intent i;
-        i = new Intent(this, Level1Activity.class);
+        i = new Intent(this, Game2Level1Activity.class); //THE SECOND LEVEL IS OPEN JUST FOR DEV PURPOSES !!!!!!
+        //i = new Intent(this, Game1Level1Activity.class);
+        startActivity(i);
+    }
+
+    //Start game 1 Level 1
+    public void onButtonAdventureClick(View view) {
+        isTimeTrialGame = false;
+        Intent i;
+        i = new Intent(this, Game1Level1Activity.class);
         startActivity(i);
     }
 

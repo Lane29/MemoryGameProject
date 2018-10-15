@@ -3,4 +3,13 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="mainPageBackground">#fdf0d2</color>
+
+    <color name="game1Background">#D98282</color>
+    <color name="game2Background">#F2A88C</color>
+
+
+
+    <!--<color name="game1Background">#95CCB6</color>
+    <color name="game2Background">#9B7CA4</color>-->
 </resources>
