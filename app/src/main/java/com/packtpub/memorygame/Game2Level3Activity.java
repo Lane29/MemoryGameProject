@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 
 public class Game2Level3Activity extends AppCompatActivity implements View.OnClickListener{
 
+    private static final String TAG = "MemoryGame";
     private int numOfMatchedCards = 0;
 
     private int numRows = 0;
@@ -30,7 +32,10 @@ public class Game2Level3Activity extends AppCompatActivity implements View.OnCli
     private int openedCardsValues[];
     private int openedCardsPositions[];
 
-    private int cntMoves = 0;
+    private int pointsOfCards[];//Array of points for each card in the pack (for scoring)
+    private int score = 0;
+    private int multiplier = 0;
+    private long firstCardOpenedTimeMillis = 0;
 
     private MediaPlayer flipMediaPlayer;
     private MediaPlayer matchMediaPlayer;
@@ -67,7 +72,15 @@ public class Game2Level3Activity extends AppCompatActivity implements View.OnCli
 
         cardTools.shuffleCards(pack);
 
-        showAllCardsFaceDown();
+        showAllCardsFaceUp();
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                flipALLCards();
+            }
+        }, 2000);
+        //showAllCardsFaceDown();
     }
 
     private void initGame(){
@@ -80,6 +93,9 @@ public class Game2Level3Activity extends AppCompatActivity implements View.OnCli
         //Array for flags for played cards
         playedCards = cardTools.initPlayedCardsArray(lengthOfPack);;
 
+        //Array for points of cards for Time Trial
+        pointsOfCards = cardTools.initPointOfCardsArray(lengthOfPack);
+
         //Array for opened cards
         openedCardsValues = cardTools.initOpenedCardsValuesArray(numOfMatchedCards);
         isOpenedCardsValuesArrayInitiated = true;
@@ -87,8 +103,11 @@ public class Game2Level3Activity extends AppCompatActivity implements View.OnCli
         //Array for positions of opened cards
         openedCardsPositions = cardTools.initOpenedCardsPositionsArray(numOfMatchedCards);
 
-        initTextMoves();
+        initScore();
         initTextInstructions(false);
+
+        multiplier = 0;
+        firstCardOpenedTimeMillis = 0;
 
         setOnClickListenerOnImageViews();
         isPlayStarted = false;
@@ -97,11 +116,11 @@ public class Game2Level3Activity extends AppCompatActivity implements View.OnCli
         buttonStart.setTag(0);
     }
 
-    private void initTextMoves() {
-        cntMoves = 0;
-        TextView textMoves = findViewById(R.id.textMoves);
-        String str = "Moves: 0";
-        textMoves.setText(str);
+    private void initScore() {
+        score = 0;
+        TextView textScore = findViewById(R.id.textScore);
+        String str = "Score: 0";
+        textScore.setText(str);
     }
 
     private void initTextInstructions(boolean deleteText) {
@@ -152,10 +171,15 @@ public class Game2Level3Activity extends AppCompatActivity implements View.OnCli
             isCardFaceDown = true;
             isCardOnItsEdge = false;
 
+            if (firstCardOpenedTimeMillis == 0)
+                firstCardOpenedTimeMillis = System.currentTimeMillis();
+            Log.i(TAG, "...onClick...firstCardOpenedTimeMillis = " + firstCardOpenedTimeMillis);
+
             flipCard(clickedCard);
 
-            cntMoves++;
-            showMoves();
+            pointsOfCards[positionInPack-1] = pointsOfCards[positionInPack-1] - 1;
+            Log.i(TAG, "...onClick...pointsOfCards[" + positionInPack  + "- 1] = " + pointsOfCards[positionInPack-1]);
+
             //add position of the opened card to the array openedCards
             cardTools.addOpenedCard(pack, positionInPack, openedCardsValues, openedCardsPositions, numOfMatchedCards);
 
@@ -168,6 +192,11 @@ public class Game2Level3Activity extends AppCompatActivity implements View.OnCli
                             matchMediaPlayer.start();
                             removeMatchedCards();
 
+                            multiplier = cardTools.getMultplier(firstCardOpenedTimeMillis, System.currentTimeMillis());
+                            score = score + cardTools.countScore(numOfMatchedCards, pointsOfCards, openedCardsPositions);
+                            multiplier = 0;
+                            firstCardOpenedTimeMillis = 0;
+                            showScore();
                             cardTools.addPlayedCards(openedCardsPositions, playedCards, numOfMatchedCards);
 
                             openedCardsValues = cardTools.initOpenedCardsValuesArray(numOfMatchedCards);
@@ -224,6 +253,12 @@ public class Game2Level3Activity extends AppCompatActivity implements View.OnCli
         toast.show();
     }
 
+    //Turn all cards face up
+    private void showAllCardsFaceUp() {
+        for (int i = 1; i <= numRows; i++)
+            for (int j = 1; j <= numCols; j++)  showCardFaceUp(i, j);
+    }
+
     //Re-start the game
     public void onStartClick(View view) {
         if (view.getTag().toString().equals("0")) {
@@ -232,7 +267,7 @@ public class Game2Level3Activity extends AppCompatActivity implements View.OnCli
             showAllCardsFaceDown();
             playedCards = cardTools.initPlayedCardsArray(lengthOfPack);
             openedCardsValues = cardTools.initOpenedCardsValuesArray(numOfMatchedCards);
-            initTextMoves();
+            initScore();
             setOnClickListenerOnImageViews();
             textTime.setText("Time: 00:00");
             isPlayStarted = false;
@@ -268,10 +303,10 @@ public class Game2Level3Activity extends AppCompatActivity implements View.OnCli
         }
     }
 
-    private void showMoves() {
-        TextView textMoves = findViewById(R.id.textMoves);
-        String strMoves = "Moves: " + cntMoves;
-        textMoves.setText(strMoves);
+    private void showScore() {
+        TextView textScore = findViewById(R.id.textScore);
+        String strScore = "Score: " + score;
+        textScore.setText(strScore);
     }
 
     //Turn all cards face down
@@ -379,4 +414,49 @@ public class Game2Level3Activity extends AppCompatActivity implements View.OnCli
         }, 1000); // 1 second
     }
 
+    private void showCardFaceUp(int i, int j) {
+        int resID = getResources().getIdentifier("card" + i + j, "id", getPackageName());
+        ImageView imageView = findViewById(resID);
+        int positionInPack = Integer.parseInt(imageView.getTag().toString());
+        int id = getResources().getIdentifier("image" + pack[positionInPack - 1], "drawable", getPackageName());
+        imageView.setImageResource(id);
+    }
+
+    //Turn only opened cards face down
+    private void flipALLCards() {
+        isCardFaceDown = false;
+        isCardOnItsEdge = false;
+
+        CountDownTimer timer = new CountDownTimer(MainActivity.flipTimeMsc*4, MainActivity.flipTimeMsc*2) {
+            @Override
+            public void onTick(long l) {
+                float scaleXValue = 1f; //Default value - for turning fully
+
+                //if the card flipped than we need to put it on the edge
+                if (!isCardOnItsEdge) scaleXValue = 0.01f;
+
+                for (int n = 0; n < pack.length; n++) {
+
+                    int i = cardTools.getCardRowByPosition(n+1, numCols);
+                    int j = cardTools.getCardColByPosition(n+1, numCols);
+                    int resID = getResources().getIdentifier("card" + i + j, "id", getPackageName());
+                    //Log.i(TAG, "flipALLCards...card" + i + j);
+                    cardToFlip = findViewById(resID);
+                    //if the card on its edge - it's the time to change image and then turn it
+                    if (isCardOnItsEdge) cardToFlip.setImageResource(R.drawable.bw);
+
+                    //Make sound
+                    flipMediaPlayer.start();
+                    cardToFlip.animate().scaleX(scaleXValue).setDuration(MainActivity.flipTimeMsc);
+                }
+                if (!isCardOnItsEdge) isCardOnItsEdge = true;
+            }
+
+            @Override
+            public void onFinish() {
+                //
+            }
+        };
+        timer.start();
+    }
 }

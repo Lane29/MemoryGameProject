@@ -33,13 +33,13 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textMoves"
+        android:id="@+id/textScore"
         android:layout_width="120dp"
         android:layout_height="27dp"
-        android:layout_marginEnd="16dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="64dp"
-        android:text="Moves:  "
+        android:layout_marginEnd="16dp"
+        android:text="Score:"
         android:textColor="@android:color/white"
         android:textSize="20sp"
         android:textStyle="bold"

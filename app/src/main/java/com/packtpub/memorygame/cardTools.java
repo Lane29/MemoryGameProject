@@ -1,10 +1,15 @@
 package com.packtpub.memorygame;
 
 import android.util.Log;
+import android.widget.ImageView;
 
 import java.util.Random;
 
 public class cardTools {
+
+    private static final int MULTIPLIER_LOW = 2;
+    private static final int MULTIPLIER_AVERAGE = 3;
+    private static final int MULTIPLIER_HIGH = 4;
 
     public static int[] initPackArray(int lengthOfPack, int numberOfCardsInSet){
         int[] pack = new int[lengthOfPack];
@@ -36,6 +41,14 @@ public class cardTools {
             openedCardsPositions[i] = 0;
         }
         return openedCardsPositions;
+    }
+
+    public static int[] initPointOfCardsArray(int lengthOfPack) {
+        int[] pointOfCardsArray = new int[lengthOfPack];
+        for (int i = 0; i < lengthOfPack; i++) {
+            pointOfCardsArray[i] = 10;
+        }
+        return pointOfCardsArray;
     }
 
     public static int[] shuffleCards(int[] pack) {
@@ -145,4 +158,22 @@ public class cardTools {
         res = Integer.parseInt(minutes) * 60 + Integer.parseInt(seconds);
         return res;
     }
+
+    public static int getMultplier(long t1, long t2) {
+        int res = 1;
+        long difMillis = (t2 - t1)/1000;
+        if (difMillis<3) res = MULTIPLIER_HIGH;
+        else if (difMillis<4) res = MULTIPLIER_AVERAGE;
+        else if (difMillis<5) res = MULTIPLIER_LOW;
+        return res;
+    }
+
+    public static int countScore(int numOfMatchedCards, int[] pointsOfCards, int[] openedCardsPositions) {
+        int res = 0;
+        for (int i = 0; i < numOfMatchedCards; i++) {
+            res += pointsOfCards[openedCardsPositions[i]-1];
+        }
+        return res;
+    }
+
 }

@@ -15,8 +15,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 public class Game2Level1Activity extends AppCompatActivity implements View.OnClickListener{
 
+    private static final String TAG = "MemoryGame";
     private int numOfMatchedCards = 0;
 
     private int numRows = 0;
@@ -31,7 +36,10 @@ public class Game2Level1Activity extends AppCompatActivity implements View.OnCli
     private int openedCardsValues[];
     private int openedCardsPositions[];
 
-    private int cntMoves = 0;
+    private int pointsOfCards[];//Array of points for each card in the pack (for scoring)
+    private int score = 0;
+    private int multiplier = 0;
+    private long firstCardOpenedTimeMillis = 0;
 
     private MediaPlayer flipMediaPlayer;
     private MediaPlayer matchMediaPlayer;
@@ -63,15 +71,12 @@ public class Game2Level1Activity extends AppCompatActivity implements View.OnCli
         flipMediaPlayer = MediaPlayer.create(this, R.raw.memory_flip);
         matchMediaPlayer = MediaPlayer.create(this, R.raw.memory_match);
         winMediaPlayer = MediaPlayer.create(this, R.raw.memory_fanfare);
-Log.i("info", "Game2Level1....onCreate...before initGame");
+
         initGame();
-        Log.i("info", "Game2Level1....onCreate...before shuffleCards");
 
         cardTools.shuffleCards(pack);
-        Log.i("info", "Game2Level1....onCreate...before showAllCardsFaceUp");
 
         showAllCardsFaceUp();
-        Log.i("info", "Game2Level1....onCreate...before Handler");
 
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
@@ -79,7 +84,6 @@ Log.i("info", "Game2Level1....onCreate...before initGame");
                 flipALLCards();
             }
         }, 2000);
-        Log.i("info", "Game2Level1....onCreate...end");
     }
 
     private void initGame(){
@@ -90,7 +94,10 @@ Log.i("info", "Game2Level1....onCreate...before initGame");
         pack = cardTools.initPackArray(lengthOfPack, numberOfCardsInSet);
 
         //Array for flags for played cards
-        playedCards = cardTools.initPlayedCardsArray(lengthOfPack);;
+        playedCards = cardTools.initPlayedCardsArray(lengthOfPack);
+
+        //Array for points of cards for Time Trial
+        pointsOfCards = cardTools.initPointOfCardsArray(lengthOfPack);
 
         //Array for opened cards
         openedCardsValues = cardTools.initOpenedCardsValuesArray(numOfMatchedCards);
@@ -99,8 +106,11 @@ Log.i("info", "Game2Level1....onCreate...before initGame");
         //Array for positions of opened cards
         openedCardsPositions = cardTools.initOpenedCardsPositionsArray(numOfMatchedCards);
 
-        initTextMoves();
+        initScore();
         initTextInstructions(false);
+
+        multiplier = 0;
+        firstCardOpenedTimeMillis = 0;
 
         setOnClickListenerOnImageViews();
         isPlayStarted = false;
@@ -109,11 +119,11 @@ Log.i("info", "Game2Level1....onCreate...before initGame");
         buttonStart.setTag(0);
     }
 
-    private void initTextMoves() {
-        cntMoves = 0;
-        TextView textMoves = findViewById(R.id.textMoves);
-        String str = "Moves: 0";
-        textMoves.setText(str);
+    private void initScore() {
+        score = 0;
+        TextView textScore = findViewById(R.id.textScore);
+        String str = "Score: 0";
+        textScore.setText(str);
     }
 
     private void initTextInstructions(boolean deleteText) {
@@ -157,17 +167,22 @@ Log.i("info", "Game2Level1....onCreate...before initGame");
         //Position of the clicked card in a whole pack
         int positionInPack = Integer.parseInt(clickedCard.getTag().toString());
 
-        //Check whether user tried to open the card while needed numer of cards are already opened
+        //Check whether user tried to open the card while needed number of cards are already opened
         //Or user clicked on the already opened card
         if (!cardTools.neededNumberOfCardsIsOpened(openedCardsValues, numOfMatchedCards)&&
                 !cardTools.isClickedCardAlreadyOpened(openedCardsPositions, positionInPack)) {
             isCardFaceDown = true;
             isCardOnItsEdge = false;
 
+            if (firstCardOpenedTimeMillis == 0)
+                firstCardOpenedTimeMillis = System.currentTimeMillis();
+            Log.i(TAG, "...onClick...firstCardOpenedTimeMillis = " + firstCardOpenedTimeMillis);
+
             flipCard(clickedCard);
 
-            cntMoves++;
-            showMoves();
+            pointsOfCards[positionInPack-1] = pointsOfCards[positionInPack-1] - 1;
+            Log.i(TAG, "...onClick...pointsOfCards[" + positionInPack  + "- 1] = " + pointsOfCards[positionInPack-1]);
+
             //add position of the opened card to the array openedCards
             cardTools.addOpenedCard(pack, positionInPack, openedCardsValues, openedCardsPositions, numOfMatchedCards);
 
@@ -179,6 +194,11 @@ Log.i("info", "Game2Level1....onCreate...before initGame");
                           matchMediaPlayer.start();
                           removeMatchedCards();
 
+                          multiplier = cardTools.getMultplier(firstCardOpenedTimeMillis, System.currentTimeMillis());
+                          score = score + cardTools.countScore(numOfMatchedCards, pointsOfCards, openedCardsPositions);
+                          multiplier = 0;
+                          firstCardOpenedTimeMillis = 0;
+                          showScore();
                           cardTools.addPlayedCards(openedCardsPositions, playedCards, numOfMatchedCards);
 
                           openedCardsValues = cardTools.initOpenedCardsValuesArray(numOfMatchedCards);
@@ -236,32 +256,12 @@ Log.i("info", "Game2Level1....onCreate...before initGame");
         toast.show();
     }
 
-  /*  //Re-start the game
-    public void onStartClick(View view) {
-        if (view.getTag().toString().equals("0")) {
-            cardTools.shuffleCards(pack);
-            moveBackAllCards();
-            showAllCardsFaceDown();
-            playedCards = cardTools.initPlayedCardsArray(lengthOfPack);
-            openedCardsValues = cardTools.initOpenedCardsValuesArray(numOfMatchedCards);
-            initTextMoves();
-            setOnClickListenerOnImageViews();
-            textTime.setText("Time: 00:00");
-            isPlayStarted = false;
-        }
-        else {
-            Intent i;
-            i = new Intent(this, Game2Level2Activity.class);
-            startActivity(i);
-        }
-    }*/
-
     private void removeMatchedCards() {
         ImageView imageView;
         for (int i = 0; i < numOfMatchedCards; i++) {
             int resID = getResources().getIdentifier(cardTools.getCardIDByPosition(openedCardsPositions[i], numCols), "id", getPackageName());
             imageView = findViewById(resID);
-            imageView.animate().translationXBy(-2000f).setDuration(2000);
+            imageView.animate().translationXBy(-2000f).setDuration(1000);
         }
     }
 
@@ -280,10 +280,10 @@ Log.i("info", "Game2Level1....onCreate...before initGame");
         }
     }
 
-    private void showMoves() {
-        TextView textMoves = findViewById(R.id.textMoves);
-        String strMoves = "Moves: " + cntMoves;
-        textMoves.setText(strMoves);
+    private void showScore() {
+        TextView textScore = findViewById(R.id.textScore);
+        String strScore = "Score: " + score;
+        textScore.setText(strScore);
     }
 
     //Turn all cards face down
@@ -403,8 +403,6 @@ Log.i("info", "Game2Level1....onCreate...before initGame");
             cardTools.shuffleCards(pack);
             moveBackAllCards();
 
-            //===================================================== trial
-
             showAllCardsFaceUp();
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
@@ -412,16 +410,10 @@ Log.i("info", "Game2Level1....onCreate...before initGame");
                     flipALLCards();
                 }
             }, 3000);
-//===================================================== trial
-
-            //showAllCardsFaceDown();
-//===================================================== trial
-
-
 
             playedCards = cardTools.initPlayedCardsArray(lengthOfPack);
             openedCardsValues = cardTools.initOpenedCardsValuesArray(numOfMatchedCards);
-            initTextMoves();
+            initScore();
             setOnClickListenerOnImageViews();
             textTime.setText("Time: 00:00");
             isPlayStarted = false;
@@ -460,7 +452,7 @@ Log.i("info", "Game2Level1....onCreate...before initGame");
                     int i = cardTools.getCardRowByPosition(n+1, numCols);
                     int j = cardTools.getCardColByPosition(n+1, numCols);
                     int resID = getResources().getIdentifier("card" + i + j, "id", getPackageName());
-                    Log.i("info", "flipALLCards...card" + i + j);
+                    //Log.i(TAG, "flipALLCards...card" + i + j);
                     cardToFlip = findViewById(resID);
                     //if the card on its edge - it's the time to change image and then turn it
                     if (isCardOnItsEdge) cardToFlip.setImageResource(R.drawable.bw);
