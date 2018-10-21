@@ -20,12 +20,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
-    //Start game 2 Level 1
+    //Start game 1 Level 1 with time limit
     public void onButtonTimeTrialClick(View view) {
         isTimeTrialGame = true;
         Intent i;
-        i = new Intent(this, Game2Level1Activity.class); //THE SECOND LEVEL IS OPEN JUST FOR DEV PURPOSES !!!!!!
-        //i = new Intent(this, Game1Level1Activity.class);
+        i = new Intent(this, Game1Level1Activity.class);
         startActivity(i);
     }
 

@@ -128,7 +128,7 @@ public class Game2Level1Activity extends AppCompatActivity implements View.OnCli
 
     private void initTextInstructions(boolean deleteText) {
         TextView textInstructions = findViewById(R.id.textViewInstructions);
-        String str = "Find Two Match";
+        String str = "Two Match";
         if (deleteText) str = "";
         textInstructions.setText(str);
     }
@@ -180,7 +180,8 @@ public class Game2Level1Activity extends AppCompatActivity implements View.OnCli
 
             flipCard(clickedCard);
 
-            pointsOfCards[positionInPack-1] = pointsOfCards[positionInPack-1] - 1;
+            if (pointsOfCards[positionInPack-1]>0)
+                pointsOfCards[positionInPack-1] = pointsOfCards[positionInPack-1] - 1;
             Log.i(TAG, "...onClick...pointsOfCards[" + positionInPack  + "- 1] = " + pointsOfCards[positionInPack-1]);
 
             //add position of the opened card to the array openedCards
@@ -231,25 +232,19 @@ public class Game2Level1Activity extends AppCompatActivity implements View.OnCli
 
     private void saveResult() {
 
-        String level1BestTime = "level1BestTime";
-        String defaultTime = "59:59";
+        String game2Level1BestScore = "game2Level1BestScore";
 
-        SharedPreferences prefs = getSharedPreferences(level1BestTime, MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
+        SharedPreferences prefs = getSharedPreferences(game2Level1BestScore, MODE_PRIVATE);
 
-        //Load existing Best Time or if it is not available default (0)
-        String bestTime = prefs.getString(level1BestTime, defaultTime);
-        String curTime = textTime.getText().toString().substring(6);
-
-        int bestTimeInSec = cardTools.strTimeToSec(bestTime);
-        int curTimeInSec = cardTools.strTimeToSec(curTime);
-
+        //Load existing Best Score or if it is not available default (0)
+        int bestScore = prefs.getInt(game2Level1BestScore, 0);
+        Log.i(TAG, "bestScore from results page = " + bestScore);
         Toast toast;
-        if (curTimeInSec < bestTimeInSec) {
-            editor = prefs.edit();
-            editor.putString(level1BestTime, curTime);
+        if (score > bestScore) {
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putInt(game2Level1BestScore, score);
             editor.commit();
-            toast = Toast.makeText(getApplicationContext(), "CONGRATULATIONS! Best Time!", Toast.LENGTH_LONG);
+            toast = Toast.makeText(getApplicationContext(), "CONGRATULATIONS! Best Score!", Toast.LENGTH_LONG);
         }
         else toast = Toast.makeText(getApplicationContext(), "CONGRATULATIONS!", Toast.LENGTH_LONG);
         toast.setGravity(Gravity.CENTER, 0, 0);
@@ -420,7 +415,7 @@ public class Game2Level1Activity extends AppCompatActivity implements View.OnCli
         }
         else {
             Intent i;
-            i = new Intent(this, Game1Level2Activity.class);
+            i = new Intent(this, Game2Level2Activity.class);
             startActivity(i);
         }
     }
@@ -470,5 +465,11 @@ public class Game2Level1Activity extends AppCompatActivity implements View.OnCli
             }
         };
         timer.start();
+    }
+
+    public void onMenuClick(View view) {
+        Intent i;
+        i = new Intent(this, MainActivity.class);
+        startActivity(i);
     }
 }

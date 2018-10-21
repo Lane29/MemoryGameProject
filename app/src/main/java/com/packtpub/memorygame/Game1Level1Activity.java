@@ -72,15 +72,7 @@ public class Game1Level1Activity extends AppCompatActivity implements View.OnCli
 
         cardTools.shuffleCards(pack);
 
-        showAllCardsFaceUp();
-
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            public void run() {
-                flipALLCards();
-            }
-        }, 2000);
-        //showAllCardsFaceDown();
+        showAllCardsFaceDown();
     }
 
     private void initGame(){
@@ -105,6 +97,7 @@ public class Game1Level1Activity extends AppCompatActivity implements View.OnCli
 
         initScore();
         initTextInstructions(false);
+        textTime.setText("Time: 00:00");
 
         multiplier = 0;
         firstCardOpenedTimeMillis = 0;
@@ -177,7 +170,8 @@ public class Game1Level1Activity extends AppCompatActivity implements View.OnCli
 
             flipCard(clickedCard);
 
-            pointsOfCards[positionInPack-1] = pointsOfCards[positionInPack-1] - 1;
+            if (pointsOfCards[positionInPack-1]>0)
+                pointsOfCards[positionInPack-1] = pointsOfCards[positionInPack-1] - 1;
             Log.i(TAG, "...onClick...pointsOfCards[" + positionInPack  + "- 1] = " + pointsOfCards[positionInPack-1]);
 
             //add position of the opened card to the array openedCards
@@ -227,33 +221,24 @@ public class Game1Level1Activity extends AppCompatActivity implements View.OnCli
     }
 
     private void saveResult() {
+        String game1Level1BestScore = "game1Level1BestScore";
+        SharedPreferences prefs = getSharedPreferences(game1Level1BestScore, MODE_PRIVATE);
 
-        String level1BestTime = "level1BestTime";
-        String defaultTime = "59:59";
-
-        SharedPreferences prefs = getSharedPreferences(level1BestTime, MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-
-        //Load existing Best Time or if it is not available default (0)
-        String bestTime = prefs.getString(level1BestTime, defaultTime);
-        String curTime = textTime.getText().toString().substring(6);
-
-        int bestTimeInSec = cardTools.strTimeToSec(bestTime);
-        int curTimeInSec = cardTools.strTimeToSec(curTime);
+        //Load existing Best Score or if it is not available default (0)
+        int bestScore = prefs.getInt(game1Level1BestScore, 0);
+        Log.i(TAG, "bestScore from results page = " + bestScore);
 
         Toast toast;
-        if (curTimeInSec < bestTimeInSec) {
-            editor = prefs.edit();
-            editor.putString(level1BestTime, curTime);
+        if (score > bestScore) {
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putInt(game1Level1BestScore, score);
             editor.commit();
-            toast = Toast.makeText(getApplicationContext(), "CONGRATULATIONS! Best Time!", Toast.LENGTH_LONG);
+            toast = Toast.makeText(getApplicationContext(), "CONGRATULATIONS! Best Score!", Toast.LENGTH_LONG);
         }
         else toast = Toast.makeText(getApplicationContext(), "CONGRATULATIONS!", Toast.LENGTH_LONG);
         toast.setGravity(Gravity.CENTER, 0, 0);
         toast.show();
     }
-
-
 
     private void removeMatchedCards() {
         ImageView imageView;
@@ -295,8 +280,8 @@ public class Game1Level1Activity extends AppCompatActivity implements View.OnCli
         flipMediaPlayer.start();
         int resID = getResources().getIdentifier("card" + i + j, "id", getPackageName());
         ImageView imageView = findViewById(resID);
-        isCardFaceDown = false;
-        flipCard(imageView);
+        int id = getResources().getIdentifier("bw", "drawable", getPackageName());
+        imageView.setImageResource(id);
     }
 
     //Turn only opened cards face down
@@ -342,6 +327,7 @@ public class Game1Level1Activity extends AppCompatActivity implements View.OnCli
         CountDownTimer timer = new CountDownTimer(MainActivity.flipTimeMsc*4, MainActivity.flipTimeMsc*2) {
             @Override
             public void onTick(long l) {
+                Log.i(TAG, "onTick");
                 float scaleXValue = 1f; //Default value - for turning to flat position
 
                 //if the card already flipped than it will be turned on to its edge
@@ -352,6 +338,7 @@ public class Game1Level1Activity extends AppCompatActivity implements View.OnCli
                     if (isCardFaceDown) {
                         //Turn the card face up (name of the target resource looks like "image<X>")
                         int positionInPack = Integer.parseInt(cardToFlip.getTag().toString());
+                        Log.i(TAG, "positionInPack = " + positionInPack);
                         int id = getResources().getIdentifier("image" + pack[positionInPack - 1], "drawable", getPackageName());
                         cardToFlip.setImageResource(id);
                         isCardFaceDown = false;
@@ -399,16 +386,10 @@ public class Game1Level1Activity extends AppCompatActivity implements View.OnCli
     //Re-start the game
     public void onStartClick(View view) {
         if (view.getTag().toString().equals("0")) {
-            cardTools.shuffleCards(pack);
             moveBackAllCards();
             showAllCardsFaceDown();
-
-            playedCards = cardTools.initPlayedCardsArray(lengthOfPack);
-            openedCardsValues = cardTools.initOpenedCardsValuesArray(numOfMatchedCards);
-            initScore();
-            setOnClickListenerOnImageViews();
-            textTime.setText("Time: 00:00");
-            isPlayStarted = false;
+            initGame();
+            cardTools.shuffleCards(pack);
         }
         else {
             Intent i;
@@ -461,5 +442,11 @@ public class Game1Level1Activity extends AppCompatActivity implements View.OnCli
             }
         };
         timer.start();
+    }
+
+    public void onMenuClick(View view) {
+        Intent i;
+        i = new Intent(this, MainActivity.class);
+        startActivity(i);
     }
 }

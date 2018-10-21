@@ -73,15 +73,7 @@ public class Game1Level2Activity extends AppCompatActivity implements View.OnCli
 
         cardTools.shuffleCards(pack);
 
-        showAllCardsFaceUp();
-
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            public void run() {
-                flipALLCards();
-            }
-        }, 2000);
-        //showAllCardsFaceDown();
+        showAllCardsFaceDown();
     }
 
     private void initGame(){
@@ -126,7 +118,7 @@ public class Game1Level2Activity extends AppCompatActivity implements View.OnCli
 
     private void initTextInstructions(boolean deleteText) {
         TextView textInstructions = findViewById(R.id.textViewInstructions);
-        String str = "Find Three Match";
+        String str = "Three Match";
         if (deleteText) str = "";
         textInstructions.setText(str);
     }
@@ -178,8 +170,9 @@ public class Game1Level2Activity extends AppCompatActivity implements View.OnCli
 
             flipCard(clickedCard);
 
-            pointsOfCards[positionInPack-1] = pointsOfCards[positionInPack-1] - 1;
-            Log.i(TAG, "...onClick...pointsOfCards[" + positionInPack  + "- 1] = " + pointsOfCards[positionInPack-1]);
+            if (pointsOfCards[positionInPack-1]>0)
+                pointsOfCards[positionInPack-1] = pointsOfCards[positionInPack-1] - 1;
+            //Log.i(TAG, "...onClick...pointsOfCards[" + positionInPack  + "- 1] = " + pointsOfCards[positionInPack-1]);
 
             //add position of the opened card to the array openedCards
             cardTools.addOpenedCard(pack, positionInPack, openedCardsValues, openedCardsPositions, numOfMatchedCards);
@@ -230,25 +223,18 @@ public class Game1Level2Activity extends AppCompatActivity implements View.OnCli
     }
 
     private void saveResult() {
-        String level2BestTime = "level2BestTime";
-        String defaultTime = "59:59";
+        String game1Level2BestScore = "game1Level2BestScore";
+        SharedPreferences prefs = getSharedPreferences(game1Level2BestScore, MODE_PRIVATE);
 
-        SharedPreferences prefs = getSharedPreferences(level2BestTime, MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-
-        //Load existing Best Time or if it is not available default (0)
-        String bestTime = prefs.getString(level2BestTime, defaultTime);
-        String curTime = textTime.getText().toString().substring(6);
-
-        int bestTimeInSec = cardTools.strTimeToSec(bestTime);
-        int curTimeInSec = cardTools.strTimeToSec(curTime);
-
+        //Load existing Best Score or if it is not available default (0)
+        int bestScore = prefs.getInt(game1Level2BestScore, 0);
+        Log.i(TAG, "bestScore from results page = " + bestScore);
         Toast toast;
-        if (curTimeInSec < bestTimeInSec) {
-            editor = prefs.edit();
-            editor.putString(level2BestTime, curTime);
+        if (score > bestScore) {
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putInt(game1Level2BestScore, score);
             editor.commit();
-            toast = Toast.makeText(getApplicationContext(), "CONGRATULATIONS! Best Time!", Toast.LENGTH_LONG);
+            toast = Toast.makeText(getApplicationContext(), "CONGRATULATIONS! Best Score!", Toast.LENGTH_LONG);
         }
         else toast = Toast.makeText(getApplicationContext(), "CONGRATULATIONS!", Toast.LENGTH_LONG);
         toast.setGravity(Gravity.CENTER, 0, 0);
@@ -265,15 +251,10 @@ public class Game1Level2Activity extends AppCompatActivity implements View.OnCli
     //Re-start the game
     public void onStartClick(View view) {
         if (view.getTag().toString().equals("0")) {
-            cardTools.shuffleCards(pack);
             moveBackAllCards();
             showAllCardsFaceDown();
-            playedCards = cardTools.initPlayedCardsArray(lengthOfPack);
-            openedCardsValues = cardTools.initOpenedCardsValuesArray(numOfMatchedCards);
-            initScore();
-            setOnClickListenerOnImageViews();
-            textTime.setText("Time: 00:00");
-            isPlayStarted = false;
+            initGame();
+            cardTools.shuffleCards(pack);
         }
         else {
             Intent i;
@@ -319,6 +300,7 @@ public class Game1Level2Activity extends AppCompatActivity implements View.OnCli
     }
 
     private void showCardFaceDown(int i, int j) {
+        flipMediaPlayer.start();
         int resID = getResources().getIdentifier("card" + i + j, "id", getPackageName());
         ImageView imageView = findViewById(resID);
         int id = getResources().getIdentifier("bw", "drawable", getPackageName());
@@ -461,5 +443,11 @@ public class Game1Level2Activity extends AppCompatActivity implements View.OnCli
             }
         };
         timer.start();
+    }
+
+    public void onMenuClick(View view) {
+        Intent i;
+        i = new Intent(this, MainActivity.class);
+        startActivity(i);
     }
 }

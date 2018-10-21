@@ -11,67 +11,89 @@
         android:id="@+id/textTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginEnd="151dp"
+        android:layout_marginBottom="29dp"
         android:text="Time: 00:00"
         android:textColor="@android:color/white"
         android:textSize="20sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/GridLayout"
+        app:layout_constraintEnd_toStartOf="@+id/textScore"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewInstructions" />
 
     <TextView
         android:id="@+id/textScore"
-        android:layout_width="120dp"
-        android:layout_height="28dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="64dp"
-        android:layout_marginEnd="16dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="11dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="12dp"
         android:text="Score:"
         android:textColor="@android:color/white"
         android:textSize="20sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/GridLayout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/textTime"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/textTime"
+        app:layout_constraintTop_toBottomOf="@+id/textViewInstructions" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/textViewLevel"
         android:layout_width="wrap_content"
-        android:layout_height="42dp"
-        android:layout_marginTop="16dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="1dp"
         android:text="Level 1"
         android:textColor="@android:color/white"
-        android:textSize="30sp"
-        android:textStyle="bold"
+        android:textSize="24sp"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toTopOf="@+id/button"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/GridLayout" />
+
+    <TextView
+        android:id="@+id/textViewGame"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:text="Game 2"
+        android:textColor="@android:color/white"
+        android:textSize="24sp"
+        android:textStyle="italic"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/GridLayout" />
 
     <TextView
         android:id="@+id/textViewInstructions"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Find Two Match"
-        android:textStyle="italic"
-        app:layout_constraintStart_toStartOf="@+id/textView"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
+        android:layout_height="0dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="11dp"
+        android:text="Two Match"
+        android:textColor="@android:color/white"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/textTime"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
+
 
     <GridLayout
         android:id="@+id/GridLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="104dp"
+        android:layout_marginBottom="21dp"
         android:columnCount="4"
         android:rowCount="3"
-
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintBottom_toTopOf="@+id/textViewLevel"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/textTime">
 
 
         <ImageView
@@ -224,16 +246,31 @@
     <Button
         android:id="@+id/button"
         android:layout_width="155dp"
-        android:layout_height="64dp"
-        android:layout_marginBottom="32dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="72dp"
         android:onClick="onStartClick"
         android:tag="0"
         android:text="RESTART"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/buttonMenu"
+        app:layout_constraintHorizontal_bias="0.484"
+        app:layout_constraintStart_toStartOf="@+id/buttonMenu" />
+
+    <Button
+        android:id="@+id/buttonMenu"
+        android:layout_width="155dp"
+        android:layout_height="61dp"
+        android:layout_marginBottom="12dp"
+        android:onClick="onMenuClick"
+        android:tag="0"
+        android:text="Main Menu"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintHorizontal_bias="0.48"
         app:layout_constraintStart_toStartOf="parent" />
 
 

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -11,43 +12,52 @@ public class ResultsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-        String level1BestTime = "level1BestTime";
-        String level2BestTime = "level2BestTime";
-        String level3BestTime = "level3BestTime";
-        String defaultTime = "0";
-        String bestTime1;
-        String bestTime2;
-        String bestTime3;
+        String game1Level1BestScore = "game1Level1BestScore";
+        String game1Level2BestScore = "game1Level2BestScore";
+        String game1Level3BestScore = "game1Level3BestScore";
+        String game2Level1BestScore = "game2Level1BestScore";
+        String game2Level2BestScore = "game2Level2BestScore";
+        String game2Level3BestScore = "game2Level3BestScore";
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_results);
 
-        SharedPreferences prefs = getSharedPreferences(level1BestTime, MODE_PRIVATE);
-        //Load existing Best Time for the level or if it is not available default (0)
-        bestTime1 = prefs.getString(level1BestTime, defaultTime);
+        SharedPreferences prefs = getSharedPreferences(game1Level1BestScore, MODE_PRIVATE);
+        //Load existing Best Score for the level or if it is not available default (0)
+        int bestScore11 = prefs.getInt(game1Level1BestScore, 0);
 
-        prefs = getSharedPreferences(level2BestTime, MODE_PRIVATE);
-        bestTime2 = prefs.getString(level2BestTime, defaultTime);
+        prefs = getSharedPreferences(game1Level2BestScore, MODE_PRIVATE);
+        int bestScore12 = prefs.getInt(game1Level2BestScore, 0);
 
-        prefs = getSharedPreferences(level3BestTime, MODE_PRIVATE);
-        bestTime3 = prefs.getString(level3BestTime, defaultTime);
+        prefs = getSharedPreferences(game1Level3BestScore, MODE_PRIVATE);
+        int bestScore13 = prefs.getInt(game1Level3BestScore, 0);
 
-        TextView textViewLevel1 = (TextView) findViewById(R.id.textViewResLevel1);
-        TextView textViewLevel2 = (TextView) findViewById(R.id.textViewResLevel2);
-        TextView textViewLevel3 = (TextView) findViewById(R.id.textViewResLevel3);
+        prefs = getSharedPreferences(game2Level1BestScore, MODE_PRIVATE);
+        int bestScore21 = prefs.getInt(game2Level1BestScore, 0);
 
-        if (bestTime1.equals("0"))textViewLevel1.setText("-");
-        else textViewLevel1.setText(bestTime1);
+        prefs = getSharedPreferences(game2Level2BestScore, MODE_PRIVATE);
+        int bestScore22 = prefs.getInt(game2Level2BestScore, 0);
 
-        if (bestTime2.equals("0")) textViewLevel2.setText("-");
-        else textViewLevel2.setText(bestTime2);
+        prefs = getSharedPreferences(game2Level3BestScore, MODE_PRIVATE);
+        int bestScore23 = prefs.getInt(game2Level3BestScore, 0);
+        
+        
+        TextView textViewGame1Level1 = (TextView) findViewById(R.id.textViewResGame1Level1);
+        TextView textViewGame1Level2 = (TextView) findViewById(R.id.textViewResGame1Level2);
+        TextView textViewGame1Level3 = (TextView) findViewById(R.id.textViewResGame1Level3);
+        TextView textViewGame2Level1 = (TextView) findViewById(R.id.textViewResGame2Level1);
+        TextView textViewGame2Level2 = (TextView) findViewById(R.id.textViewResGame2Level2);
+        TextView textViewGame2Level3 = (TextView) findViewById(R.id.textViewResGame2Level3);
 
-        if (bestTime3.equals("0")) textViewLevel3.setText("-");
-        else textViewLevel3.setText(bestTime3);
+        textViewGame1Level1.setText(Integer.toString(bestScore11));
+        textViewGame1Level2.setText(Integer.toString(bestScore12));
+        textViewGame1Level3.setText(Integer.toString(bestScore13));
+        textViewGame2Level1.setText(Integer.toString(bestScore21));
+        textViewGame2Level2.setText(Integer.toString(bestScore22));
+        textViewGame2Level3.setText(Integer.toString(bestScore23));
     }
 
-    public void onBackClick(View view) {
+    public void onMenuClick(View view) {
         Intent i;
         i = new Intent(this, MainActivity.class);
         startActivity(i);

@@ -6,71 +6,94 @@
     android:layout_height="match_parent"
     tools:context=".Game2Level3Activity"
     tools:layout_editor_absoluteY="81dp"
-    android:background="@color/game2Background"
-    >
-
-    <TextView
-        android:id="@+id/textViewInstructions"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Find Three Match"
-        android:textStyle="italic"
-        app:layout_constraintStart_toStartOf="@+id/textView"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
-        tools:ignore="MissingConstraints" />
+    android:background="@color/game2Background">
 
     <TextView
         android:id="@+id/textTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginEnd="151dp"
+        android:layout_marginBottom="29dp"
         android:text="Time: 00:00"
         android:textColor="@android:color/white"
         android:textSize="20sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/GridLayout"
+        app:layout_constraintEnd_toStartOf="@+id/textScore"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewInstructions" />
 
     <TextView
         android:id="@+id/textScore"
-        android:layout_width="120dp"
-        android:layout_height="27dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="64dp"
-        android:layout_marginEnd="16dp"
-        android:text="Score:  "
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="11dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="12dp"
+        android:text="Score:"
         android:textColor="@android:color/white"
         android:textSize="20sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/GridLayout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/textTime"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/textTime"
+        app:layout_constraintTop_toBottomOf="@+id/textViewInstructions" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/textViewLevel"
         android:layout_width="wrap_content"
-        android:layout_height="42dp"
-        android:layout_marginTop="16dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="41dp"
         android:text="Level 3"
         android:textColor="@android:color/white"
-        android:textSize="30sp"
-        android:textStyle="bold"
+        android:textSize="24sp"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewGame"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textViewGame" />
+
+    <TextView
+        android:id="@+id/textViewGame"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:text="Game 2"
+        android:textColor="@android:color/white"
+        android:textSize="24sp"
+        android:textStyle="italic"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/GridLayout" />
+
+    <TextView
+        android:id="@+id/textViewInstructions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="11dp"
+        android:text="Three Match"
+        android:textColor="@android:color/white"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/textTime"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
 
     <GridLayout
         android:id="@+id/GridLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="104dp"
+        android:layout_marginBottom="21dp"
         android:columnCount="6"
         android:rowCount="3"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/textViewLevel"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/textTime">
 
         <ImageView
             android:id="@+id/card11"
@@ -85,7 +108,7 @@
             android:tag="1"
             android:background="@drawable/border"
             app:layout_constraintStart_toStartOf="parent"
-            app:srcCompat="@mipmap/ic_launcher"
+            app:srcCompat="@drawable/bw"
             tools:layout_editor_absoluteY="50dp" />
 
         <ImageView
@@ -99,7 +122,7 @@
             android:contentDescription="card"
             android:tag="2"
             android:background="@drawable/border"
-            app:srcCompat="@mipmap/ic_launcher"
+            app:srcCompat="@drawable/bw"
             tools:layout_editor_absoluteX="123dp"
             tools:layout_editor_absoluteY="64dp" />
 
@@ -114,7 +137,7 @@
             android:contentDescription="card"
             android:tag="3"
             android:background="@drawable/border"
-            app:srcCompat="@mipmap/ic_launcher"
+            app:srcCompat="@drawable/bw"
             tools:layout_editor_absoluteX="226dp"
             tools:layout_editor_absoluteY="95dp" />
 
@@ -129,7 +152,7 @@
             android:contentDescription="card"
             android:tag="4"
             android:background="@drawable/border"
-            app:srcCompat="@mipmap/ic_launcher" />
+            app:srcCompat="@drawable/bw" />
 
         <ImageView
             android:id="@+id/card15"
@@ -144,7 +167,7 @@
             android:tag="5"
             android:background="@drawable/border"
             app:layout_constraintStart_toStartOf="parent"
-            app:srcCompat="@mipmap/ic_launcher"
+            app:srcCompat="@drawable/bw"
             tools:layout_editor_absoluteY="50dp" />
 
         <ImageView
@@ -159,7 +182,7 @@
             android:contentDescription="card"
             android:tag="6"
             app:layout_constraintStart_toStartOf="parent"
-            app:srcCompat="@mipmap/ic_launcher"
+            app:srcCompat="@drawable/bw"
             tools:layout_editor_absoluteY="50dp" />
 
         <ImageView
@@ -173,7 +196,7 @@
             android:background="@drawable/border"
             android:contentDescription="card"
             android:tag="7"
-            app:srcCompat="@mipmap/ic_launcher"
+            app:srcCompat="@drawable/bw"
             tools:layout_editor_absoluteX="123dp"
             tools:layout_editor_absoluteY="64dp" />
 
@@ -188,7 +211,7 @@
             android:background="@drawable/border"
             android:contentDescription="card"
             android:tag="8"
-            app:srcCompat="@mipmap/ic_launcher"
+            app:srcCompat="@drawable/bw"
             tools:layout_editor_absoluteX="226dp"
             tools:layout_editor_absoluteY="95dp" />
 
@@ -203,7 +226,7 @@
             android:background="@drawable/border"
             android:contentDescription="card"
             android:tag="9"
-            app:srcCompat="@mipmap/ic_launcher" />
+            app:srcCompat="@drawable/bw" />
 
         <ImageView
             android:id="@+id/card24"
@@ -218,7 +241,7 @@
             android:scaleType="centerInside"
             android:tag="10"
             app:layout_constraintStart_toStartOf="parent"
-            app:srcCompat="@mipmap/ic_launcher"
+            app:srcCompat="@drawable/bw"
             tools:layout_editor_absoluteY="50dp" />
 
         <ImageView
@@ -233,7 +256,7 @@
             android:contentDescription="card"
             android:tag="11"
             app:layout_constraintStart_toStartOf="parent"
-            app:srcCompat="@mipmap/ic_launcher"
+            app:srcCompat="@drawable/bw"
             tools:layout_editor_absoluteY="50dp" />
 
         <ImageView
@@ -247,7 +270,7 @@
             android:background="@drawable/border"
             android:contentDescription="card"
             android:tag="12"
-            app:srcCompat="@mipmap/ic_launcher"
+            app:srcCompat="@drawable/bw"
             tools:layout_editor_absoluteX="123dp"
             tools:layout_editor_absoluteY="64dp" />
 
@@ -262,7 +285,7 @@
             android:background="@drawable/border"
             android:contentDescription="card"
             android:tag="13"
-            app:srcCompat="@mipmap/ic_launcher"
+            app:srcCompat="@drawable/bw"
             tools:layout_editor_absoluteX="226dp"
             tools:layout_editor_absoluteY="95dp" />
 
@@ -277,7 +300,7 @@
             android:background="@drawable/border"
             android:contentDescription="card"
             android:tag="14"
-            app:srcCompat="@mipmap/ic_launcher" />
+            app:srcCompat="@drawable/bw" />
 
         <ImageView
             android:id="@+id/card33"
@@ -292,7 +315,7 @@
             android:scaleType="centerInside"
             android:tag="15"
             app:layout_constraintStart_toStartOf="parent"
-            app:srcCompat="@mipmap/ic_launcher"
+            app:srcCompat="@drawable/bw"
             tools:layout_editor_absoluteY="50dp" />
 
         <ImageView
@@ -308,7 +331,7 @@
             android:scaleType="centerInside"
             android:tag="16"
             app:layout_constraintStart_toStartOf="parent"
-            app:srcCompat="@mipmap/ic_launcher"
+            app:srcCompat="@drawable/bw"
             tools:layout_editor_absoluteY="50dp" />
 
         <ImageView
@@ -324,7 +347,7 @@
             android:scaleType="centerInside"
             android:tag="17"
             app:layout_constraintStart_toStartOf="parent"
-            app:srcCompat="@mipmap/ic_launcher"
+            app:srcCompat="@drawable/bw"
             tools:layout_editor_absoluteY="50dp" />
 
         <ImageView
@@ -340,7 +363,7 @@
             android:scaleType="centerInside"
             android:tag="18"
             app:layout_constraintStart_toStartOf="parent"
-            app:srcCompat="@mipmap/ic_launcher"
+            app:srcCompat="@drawable/bw"
             tools:layout_editor_absoluteY="50dp" />
 
     </GridLayout>
@@ -348,14 +371,31 @@
     <Button
         android:id="@+id/button"
         android:layout_width="155dp"
-        android:layout_height="64dp"
-        android:layout_marginBottom="70dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="72dp"
         android:onClick="onStartClick"
-        android:text="Restart"
+        android:tag="0"
+        android:text="RESTART"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/buttonMenu"
+        app:layout_constraintHorizontal_bias="0.484"
+        app:layout_constraintStart_toStartOf="@+id/buttonMenu" />
+
+    <Button
+        android:id="@+id/buttonMenu"
+        android:layout_width="155dp"
+        android:layout_height="61dp"
+        android:layout_marginBottom="12dp"
+        android:onClick="onMenuClick"
+        android:tag="0"
+        android:text="Main Menu"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.48"
         app:layout_constraintStart_toStartOf="parent" />
 
 
