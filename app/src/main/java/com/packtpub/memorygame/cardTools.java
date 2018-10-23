@@ -150,12 +150,32 @@ public class cardTools {
         return res;
     }
 
-    public static int strTimeToSec(String bestTime) {
+    public static int strTimeToSeconds(String time) {
         //strTime looks like "13:47"
         int res = 0;
-        String minutes = bestTime.substring(0,2);
-        String seconds = bestTime.substring(3);
+        Log.i("info", "...strTimeToSeconds...time = " + time);
+        String minutes = time.substring(0,2);
+        String seconds = time.substring(3);
         res = Integer.parseInt(minutes) * 60 + Integer.parseInt(seconds);
+        return res;
+    }
+
+    public static String secondsToStrTime(int timeInSeconds) {
+        //for 70 seconds result would be "01:10"
+        String res = "";
+        Log.i("info", "...timeInSeconds = " + timeInSeconds);
+        int minutes = timeInSeconds / 60;
+        int seconds = timeInSeconds - (minutes * 60);
+
+        Log.i("info", "...minutes = " + minutes);
+        Log.i("info", "...seconds = " + seconds);
+
+        res = minutes + ":";
+        if (minutes < 10) res= "0" + res;
+        if (seconds < 10) res= res + "0";
+        res = res + seconds;
+        Log.i("info", "...timeResult = " + res);
+
         return res;
     }
 

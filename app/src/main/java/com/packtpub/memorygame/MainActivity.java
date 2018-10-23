@@ -11,8 +11,10 @@ public class MainActivity extends AppCompatActivity {
     public static int flipTimeMsc = 150;
 
     public static boolean isTimeTrialGame;
-
-
+    public static final int SECONDS_GAME1_LEVEL1 = 60;
+    public static final int SECONDS_GAME2_LEVEL1 = 50; //the initial time is lower because all cards are shown
+    public static final int SECONDS_INCREMENT_BETWEEN_LEVELS = 5;
+    public static int bonusTime = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
