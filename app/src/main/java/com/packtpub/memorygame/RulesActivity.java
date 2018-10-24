@@ -20,12 +20,14 @@ public class RulesActivity extends AppCompatActivity {
                 "- three (in Level 2)<br>" +
                 "- three (in Level 3)<br>" +
                 "matched cards.</p>" +
-                "<p>After shuffling cards are laid face down, in rows.</p>" +
+                "<p>After shuffling cards are laid in rows, face down - in Game 1, face up - in Game 2.</p>" +
                 "</p>Turn over any two (in Level 1) or three (in Level 2 and Level 3) cards (one at a time)." +
                 "If they match, the cards are removed from the table. " +
                 "If they do not match, the cards are turned face down.</p>" +
                 "<p>To win a game quicker, it is recommended to remember the values of opened cards." +
-                "<p></p>Best times are saved in the table of results for each level.</p>"));
+                "<p></p>The faster you found a match, the more score points you will get.</p>" +
+                "<p>In Time Trial, you will get bonus time for the next level if open all cards and 10 or more seconds are left.</p><p>" +
+                "Best times are saved in the table of results for each level.</p>"));
     }
 
     public void onBackClick(View view) {

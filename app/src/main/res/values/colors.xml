@@ -10,6 +10,6 @@
 
 
 
-    <!--<color name="game1Background">#95CCB6</color>
-    <color name="game2Background">#9B7CA4</color>-->
+    <color name="resultsBackground">#95CCB6</color>
+    <color name="rulesBackground">#9B7CA4</color>
 </resources>

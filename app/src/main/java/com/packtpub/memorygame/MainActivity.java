@@ -16,6 +16,8 @@ public class MainActivity extends AppCompatActivity {
     public static final int SECONDS_INCREMENT_BETWEEN_LEVELS = 5;
     public static int bonusTime = 0;
 
+    public static boolean isMuteClicked= false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

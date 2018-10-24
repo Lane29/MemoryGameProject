@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,6 +25,7 @@ import static com.packtpub.memorygame.MainActivity.SECONDS_GAME2_LEVEL1;
 import static com.packtpub.memorygame.MainActivity.SECONDS_INCREMENT_BETWEEN_LEVELS;
 import static com.packtpub.memorygame.MainActivity.bonusTime;
 import static com.packtpub.memorygame.MainActivity.flipTimeMsc;
+import static com.packtpub.memorygame.MainActivity.isMuteClicked;
 import static com.packtpub.memorygame.MainActivity.isTimeTrialGame;
 
 public class Game2Level1Activity extends AppCompatActivity implements View.OnClickListener{
@@ -78,6 +80,8 @@ public class Game2Level1Activity extends AppCompatActivity implements View.OnCli
         flipMediaPlayer = MediaPlayer.create(this, R.raw.memory_flip);
         matchMediaPlayer = MediaPlayer.create(this, R.raw.memory_match);
         winMediaPlayer = MediaPlayer.create(this, R.raw.memory_fanfare);
+
+        setSound(isMuteClicked);
 
         initGame();
 
@@ -490,5 +494,26 @@ public class Game2Level1Activity extends AppCompatActivity implements View.OnCli
         Intent i;
         i = new Intent(this, MainActivity.class);
         startActivity(i);
+    }
+
+    public void onMuteClick(View view) {
+        isMuteClicked=!isMuteClicked;
+        setSound(isMuteClicked);
+    }
+
+    private void setSound (boolean isSoundOff) {
+        ImageButton buttonMute=(ImageButton) findViewById(R.id.buttonMute);
+        if (isSoundOff) {
+            flipMediaPlayer.setVolume(0, 0);
+            matchMediaPlayer.setVolume(0, 0);
+            winMediaPlayer.setVolume(0, 0);
+            buttonMute.setImageResource(R.drawable.mute24);
+        }
+        else {
+            flipMediaPlayer.setVolume(1, 1);
+            matchMediaPlayer.setVolume(1, 1);
+            winMediaPlayer.setVolume(1, 1);
+            buttonMute.setImageResource(R.drawable.sound24);
+        }
     }
 }
