@@ -128,7 +128,7 @@ public class Game1Level1Activity extends AppCompatActivity implements View.OnCli
 
     private void initTextInstructions(boolean deleteText) {
         TextView textInstructions = findViewById(R.id.textViewInstructions);
-        String str = "Find Two Match";
+        String str = "Two Match";
         if (deleteText) str = "";
         textInstructions.setText(str);
     }
